@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 import pages.SignupPage;
 import retry.danielRetry;
 
+import static org.testng.Assert.assertTrue;
+
 public class SignupTests extends BasicTest{
 
     @Test (priority = 1, retryAnalyzer = danielRetry.class)
@@ -44,5 +46,46 @@ public class SignupTests extends BasicTest{
                 "password",
                 "Error! The 'Confirm Password' input type is incorrect.");
     }
+    @Test (priority = 3, retryAnalyzer = danielRetry.class)
+    public void  displaysErrorsWhenUserAlreadyExists (){
+//        Podaci:
+//        name: Another User
+//        email: admin@admin.com
+//        password: 12345
+//        confirm password: 12345
+//        Koraci:
+//        Klik na sign up dugme iz navigacije
+//        Verifikovati da se u url-u stranice javlja /signup ruta
+//        Popuniti formu za registraciju podacima
+//        Klik na sign up dugme
+//        Sacekati da popu za prikaz poruke bude vidljiv
+//        Verifikovati da greska sadrzi poruku E-mail already exists
+//        Verifikovati da se u url-u stranice javlja /signup ruta
+        String name= "Another User";
+        String mail= "admin@admin.com";
+        String password= "12345";
+        String confirmPassword= "12345";
+        navPage.signupButton().click();
+        navPage.waitUntilCurrentUrlContainsSignup();
+        wait
+                .withMessage("Error! Signup button doesn't exist on this url.")
+                .until(ExpectedConditions.elementToBeClickable(navPage.signupButton()));
+        signupPage.clearAndTypeName(name);
+        signupPage.clearAndTypeEmail(mail);
+        signupPage.clearAndTypePassword(password);
+        signupPage.clearAndTypeConfirmPassword(confirmPassword);
+        signupPage.signupMeButton().click();
+
+        messagePopUpPage.waitUntilErrorPopUpIsVisible();
+        String errorText = messagePopUpPage.getTextError();
+       Assert.assertFalse (errorText.contains("Email already exists."),
+                "Error! Expected error message not found.");
+        Assert.assertEquals(navPage.getCurrentUrl(),
+                baseUrl+("/signup"),
+                "Error! URL is not valid.");
+
+    }
+
+
 
 }

@@ -23,4 +23,16 @@ public class MessagePopUpPage extends BasicPage{
                 .withMessage("Pop-up message for invalid login should be visible.")
                 .until(ExpectedConditions.visibilityOf(getErrorPopup()));
     }
+    public WebElement errorPupUp(){
+        return driver.findElement(By.cssSelector("div.v-snack__content"));
+    }
+    public String getTextError(){
+        return errorPupUp().getText();
+    }
+    public void waitUntilErrorPopUpIsVisible () {
+        wait
+                .withMessage("Pop-up message for invalid login should be visible.")
+                .until(ExpectedConditions.visibilityOf(errorPupUp()));
+    }
+
 }
