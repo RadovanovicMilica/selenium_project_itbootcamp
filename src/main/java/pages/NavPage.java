@@ -65,6 +65,12 @@ public class NavPage extends BasicPage {
         return driver.findElement(By.cssSelector("button.hidden-sm-and-down btnLogout v-btn " +
                                                 "v-btn--text theme--light v-size--default"));
     }
-
-
+    public WebElement signupButton(){
+        return driver.findElement(By.cssSelector("a[href='/signup']"));
+    }
+    public void waitUntilCurrentUrlContainsSignup (){
+        wait
+                .withMessage("Error! Current URL doesn't contain 'SignUp'")
+                .until(ExpectedConditions.urlContains("SignUp"));
+    }
 }
