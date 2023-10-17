@@ -71,6 +71,6 @@ public class NavPage extends BasicPage {
     public void waitUntilCurrentUrlContainsSignup (){
         wait
                 .withMessage("Error! Current URL doesn't contain 'SignUp'")
-                .until(ExpectedConditions.urlContains("SignUp"));
+                .until(ExpectedConditions.urlContains("/signup"));
     }
 }
