@@ -29,7 +29,7 @@ public class NavPage extends BasicPage {
     }
 
     public  WebElement loginButton(){
-        return driver.findElement(By.cssSelector("[href='/login'].btnLogin"));
+        return driver.findElement(By.cssSelector("header a[href='/login']"));
     }
     public  WebElement getlanguageButton (){
         return driver.findElement(By.className("btnLocaleActivation"));
@@ -53,20 +53,19 @@ public class NavPage extends BasicPage {
     }
     public void waitUntilCurrentUrlContainsLogin () {
         wait
-                .withMessage("Current url should contain '/login'.")
+                .withMessage("Error! Current URL doesn't contain '/login'.")
                 .until(ExpectedConditions.urlContains("/login"));
     }
     public void waitUntilCurrentUrlContainsHome () {
         wait
-                .withMessage("Current url should contain '/home'.")
+                .withMessage("Error! Current URL doesn't contain '/home'.")
                 .until(ExpectedConditions.urlContains("/home"));
     }
     public  WebElement logoutButton(){
-        return driver.findElement(By.cssSelector("button.hidden-sm-and-down btnLogout v-btn " +
-                                                "v-btn--text theme--light v-size--default"));
+        return driver.findElement(By.className("btnLogout"));
     }
     public WebElement signupButton(){
-        return driver.findElement(By.cssSelector("a[href='/signup']"));
+        return driver.findElement(By.cssSelector("header a[href='/signup']"));
     }
     public void clickOnSignupButton (){
         signupButton().click();
@@ -75,5 +74,23 @@ public class NavPage extends BasicPage {
         wait
                 .withMessage("Error! Current URL doesn't contain 'SignUp'")
                 .until(ExpectedConditions.urlContains("/signup"));
+    }
+    public WebElement adminButton(){
+        return driver.findElement(By.className("btnAdmin"));
+    }
+    public void waitUntilAdminListIsVisible(){
+        wait
+                .withMessage("Error! Admin list is not visible.")
+                .until(ExpectedConditions.visibilityOf(adminButton()));
+    }
+    public WebElement citiesButtonFromDropdown (){
+        return driver.findElement(By.className("btnAdminCities"));
+//        public WebElement getCitiesButton() {
+//            return driver.findElement(By.className("btnAdminCities"));
+    }
+    public void waitUntilCurrentUrlContainsAdminCities () {
+        wait
+                .withMessage("Error! Current URL doesn't contain '/admin/cities'.")
+                .until(ExpectedConditions.urlContains("/admin/cities"));
     }
 }
