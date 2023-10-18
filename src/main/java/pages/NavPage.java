@@ -68,6 +68,9 @@ public class NavPage extends BasicPage {
     public WebElement signupButton(){
         return driver.findElement(By.cssSelector("a[href='/signup']"));
     }
+    public void clickOnSignupButton (){
+        signupButton().click();
+    }
     public void waitUntilCurrentUrlContainsSignup (){
         wait
                 .withMessage("Error! Current URL doesn't contain 'SignUp'")

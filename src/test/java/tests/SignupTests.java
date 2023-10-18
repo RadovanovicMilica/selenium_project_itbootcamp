@@ -83,9 +83,41 @@ public class SignupTests extends BasicTest{
         Assert.assertEquals(navPage.getCurrentUrl(),
                 baseUrl+("/signup"),
                 "Error! URL is not valid.");
-
     }
-
-
+    @Test (priority = 4, retryAnalyzer = danielRetry.class)
+    public void signup (){
+//        Podaci:
+//        name: Ime i prezime polaznika
+//        email template: ime.prezime@itbootcamp.rs
+//        password: 12345
+//        confirm password: 12345
+//        Koraci:
+//        Klik na sign up dugme iz navigacije
+//        Popuniti formu podacima za registraciju
+//        Klik na sign up dugme
+//        Ucitati stranicu /home
+//        Verifikovati da dijalog za obavestenje sadrzi tekst IMPORTANT: Verify your account
+//        Kliknuti na Close dugme iz dijaloga
+//        Kliknuti na logout
+        String name= "Milica Radovanovic";
+        String mail= "milica.radovanovic@itbootcamp.rs";
+        String password= "12345";
+        String confirmPassword= "12345";
+        navPage.clickOnSignupButton();
+        navPage.waitUntilCurrentUrlContainsSignup();
+        signupPage.clearAndTypeName(name);
+        signupPage.clearAndTypeEmail(mail);
+        signupPage.clearAndTypePassword(password);
+        signupPage.clearAndTypeConfirmPassword(confirmPassword);
+        signupPage.signupMeButton().click();
+//        navPage.waitUntilCurrentUrlContainsHome();
+        messagePopUpPage.waitUntilVerifyYourAccountIsVisible();
+        String errorText = messagePopUpPage.getTextFromVerifyAccountPopUpMessage();
+        Assert.assertEquals (errorText,
+                "IMPORTANT: Verify your account.",
+                "Error! There is no notification 'IMPORTANT: Verify your account'");
+        messagePopUpPage.closeButton().click();
+        navPage.logoutButton().click();
+    }
 
 }
