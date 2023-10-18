@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import retry.danielRetry;
 
 public class AdminCitiesTests extends BasicTest{
+
     @Test(priority = 1, retryAnalyzer = danielRetry.class)
     public void visitsTheAdminCitiesPageAndListCities (){
 //        Podaci:
@@ -26,6 +27,22 @@ public class AdminCitiesTests extends BasicTest{
     navPage.waitUntilAdminListIsVisible();
     navPage.citiesButtonFromDropdown().click();
         Assert.assertEquals(navPage.getCurrentUrl(),baseUrl + "/admin/cities",
-                "Error! Curent URL is not baseUrl + /admin/cities");
+                "Error! Current URL is not baseUrl + /admin/cities");
+    }
+    @Test(priority =2, retryAnalyzer = danielRetry.class)
+    public void checksInputTypesForCreateEditNewCity (){
+//        Klik na admin dugme iz navigacije
+//        Klik na Cities dugme iz padajuceg Admin menija
+//        Kliknuti na New Item dugme
+//        Sacekati da se dijalog za kreiranje i editovanje grada pojavi
+//        Verifikovati da polje za unos grada za atribut type ima tekst text
+        navPage.adminButton().click();
+        navPage.waitUntilAdminListIsVisible();
+        navPage.citiesButtonFromDropdown().click();
+        citiesPage.newItemButton().click();
+        citiesPage.waitUntilCreateAndEditCityMessageIsVisible();
+        Assert.assertEquals(citiesPage.nameInputFiledForAttributeType(),
+                "text",
+                "Error! Name input filed doesn't have 'text' value.");
     }
 }
