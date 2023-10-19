@@ -60,5 +60,12 @@ public class MessagePopUpPage extends BasicPage{
     public boolean getTextFromPopUpMessageForSuccessfulAddOrEdit (){
         return popUpMessageForSuccessfulAddOrEdit().getText().contains("saved successfully");
     }
-
+    public void waitUntilPopUpMessageForSuccessfulDeleteIsVisible() {
+        wait
+                .withMessage("Error! PopUp message for successful delete is not visible.")
+                .until(ExpectedConditions.visibilityOf(popUpMessageForSuccessfulAddOrEdit()));
+    }
+    public boolean getTextFromPopUpMessageForSuccessfulDelete () {
+            return popUpMessageForSuccessfulAddOrEdit().getText().contains("Deleted successfully");
+        }
 }

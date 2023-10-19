@@ -115,7 +115,38 @@ public class AdminCitiesTests extends BasicTest{
 //        citiesPage.waitForCreateEditDialogVisibility();
         citiesPage.typeSearchCityInput(cityName);
         citiesPage.waitForNumberOfTableRows(1);
-        Assert.assertEquals(citiesPage.getTextFromField(), cityName,
+        Assert.assertEquals(citiesPage.getTextFromField(1,2), cityName,
                 " Error! City in the name field isn't " + cityName);
+    }
+    @Test (priority = 6, retryAnalyzer = danielRetry.class)
+    public void deleteCity (){
+//        Podaci:
+//        city name: [Ime i prezime polaznika]’s city Edited
+//        Koraci:
+//        Klik na admin dugme iz navigacije
+//        Klik na Cities dugme iz padajuceg Admin menija
+//        U polje za pretragu uneti staro ime grada
+//        Sacekati da broj redova u tabeli bude 1
+//        Verifikovati da se u Name koloni prvog reda nalazi tekst iz pretrage
+//        Kliknuti na dugme Delete iz prvog reda
+//        Sacekati da se dijalog za brisanje pojavi
+//        Kliknuti na dugme Delete iz dijaloga
+//        Sacekati da popu za prikaz poruke bude vidljiv
+//        Verifikovati da poruka sadrzi tekst Deleted successfully
+        String cityName = "MilicaRadovanovic's city Edited";
+        navPage.adminButton().click();
+        navPage.citiesButtonFromDropdown().click();
+        citiesPage.typeSearchCityInput(cityName);
+        citiesPage.waitForNumberOfTableRows(1);
+        Assert.assertEquals(citiesPage.getTextFromField(1,2), cityName,
+                "City in the name field should be " + cityName);
+        citiesPage.clickOnDeleteButtonFromTable(1);
+        citiesPage.deleteDialogVisible();
+        citiesPage.clickOnDialogDeleteButton();
+        messagePopUpPage.waitUntilPopUpMessageForSuccessfulDeleteIsVisible();
+        Assert.assertTrue(messagePopUpPage.getTextFromPopUpMessageForSuccessfulDelete(),
+                "Error! Pop up message doesn't contain text 'Deleted successfully'.");
+
+
     }
 }

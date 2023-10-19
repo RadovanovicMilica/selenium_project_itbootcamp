@@ -61,7 +61,24 @@ public class CitiesPage extends BasicPage{
         return driver.findElement(By.cssSelector(".v-data-table__wrapper tbody tr:nth-child" + row +
                 " td:nth-child" + column));
     }
-    public String getTextFromField(){
-        return getFieldFromTableRow().getText();
+    public String getTextFromField(int row, int column){
+        return getFieldFromTableRow(row, column ).getText();
+    }
+    public WebElement deleteButtonFromTable(int row) {
+        return driver.findElements(By.id("delete")).get(row-1);
+    }
+    public void clickOnDeleteButtonFromTable(int row) {
+        deleteButtonFromTable(row).click();
+    }
+    public void deleteDialogVisible() {
+        wait
+                .withMessage("Delete dialog is not visible")
+                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".v-dialog .warning")));
+    }
+    public WebElement dialogDeleteButton() {
+        return driver.findElement(By.cssSelector(".v-card__actions button.red--text:last-child"));
+    }
+    public void clickOnDialogDeleteButton() {
+        dialogDeleteButton().click();
     }
 }
