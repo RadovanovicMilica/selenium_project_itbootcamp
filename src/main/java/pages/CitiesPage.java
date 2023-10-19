@@ -1,58 +1,60 @@
 package pages;
 
+import dev.failsafe.internal.util.Assert;
+import org.bouncycastle.crypto.digests.Kangaroo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import java.security.Key;
+import java.util.List;
 
 public class CitiesPage extends BasicPage{
     public CitiesPage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
     }
 
-    public WebElement newItemButton (){
+    public WebElement newItemButton() {
         return driver.findElement(By.className("btnNewItem"));
     }
-    public WebElement popUpForAddOrEditCities(){
-        return driver.findElement(By.className("dlgNewEditItem"));
-    }
-    public void waitUntilCreateAndEditCityMessageIsVisible(){
+    public void waitForCreateEditDialogVisibility() {
         wait
-                .withMessage("Error! PopUp message for create or edit City is not visible.")
-                .until(ExpectedConditions.visibilityOf(popUpForAddOrEditCities()));
+                .withMessage("Create/edit dialog is not visible")
+                .until(ExpectedConditions.visibilityOfElementLocated(By.className("dlgNewEditItem")));
     }
-    public WebElement nameInputFiled (){
+    public WebElement citiesNameInput() {
         return driver.findElement(By.id("name"));
     }
-    public String nameInputFiledForAttributeType (){
-        return nameInputFiled().getAttribute("type");
+    public void clearEndTypeCitiesNameField(String citiesName) {
+        citiesNameInput().clear();
+        citiesNameInput().sendKeys(citiesName);
     }
-    public void fillInTheNameInputFiled (String cityName){
-        nameInputFiled().clear();
-        nameInputFiled().sendKeys(cityName);
-    }
-    public WebElement saveButtonForAddOrEdit (){
+    public WebElement dialogSaveButton() {
         return driver.findElement(By.className("btnSave"));
     }
-
-//OVO IDE ZA TESTOVE KOJI SU U REZERVNOJ KLASI:
-    public WebElement searchField (){
-        return driver.findElement(By.cssSelector("div.flex xs12 sm6 md4 px-3"));
+    public void clickOnDialogSaveButton() {
+        dialogSaveButton().click();
     }
-    public void fillInSearch (String oldName){
-        searchField().clear();
-        searchField().sendKeys(oldName);
+    public WebElement searchCityInput() {
+        return driver.findElement(By.id("search"));
     }
-    public void waitUntilNumberOfRowsInTheCityTableIsDefined (int numberOfRows ){
+    public void typeSearchCityInput(String citiesName) {
+        searchCityInput().sendKeys(citiesName);
+    }
+    public void waitForNumberOfTableRows(int numberOfRows){
         wait
-                .withMessage("Error! Number of rows in the table is not " + numberOfRows + "." )
-                .until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.v-data-table__wrapper"),
-                        numberOfRows));
+                .withMessage("Number of rows should be " + numberOfRows)
+                .until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("tbody>tr"), numberOfRows));
     }
-    public WebElement editCityButton (){
-        return driver.findElement(By.id("edit"));
+    public WebElement getEditButtonTableRow(int row){
+        return driver.findElements(By.id("edit")).get(row-1);
     }
-
+    public void clickOnEditButtonFromTableRow(int row){
+        getEditButtonTableRow(row).click();
+    }
+    public void typeEditCityInput(String newCityName) {
+        citiesNameInput().sendKeys(newCityName);
+    }
 }

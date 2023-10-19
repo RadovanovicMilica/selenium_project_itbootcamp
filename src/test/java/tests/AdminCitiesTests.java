@@ -1,6 +1,7 @@
 package tests;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import retry.danielRetry;
@@ -40,10 +41,9 @@ public class AdminCitiesTests extends BasicTest{
         navPage.waitUntilAdminListIsVisible();
         navPage.citiesButtonFromDropdown().click();
         citiesPage.newItemButton().click();
-        citiesPage.waitUntilCreateAndEditCityMessageIsVisible();
-        Assert.assertEquals(citiesPage.nameInputFiledForAttributeType(),
-                "text",
-              "Error! Name input filed doesn't have 'text' value.");
+        citiesPage.waitForCreateEditDialogVisibility();
+        Assert.assertEquals(citiesPage.citiesNameInput().getAttribute("type"), "text",
+                "The 'type' attribute for the cities name input field is not correct.");
     }
     @Test (priority = 3, retryAnalyzer = danielRetry.class)
     public void  createNewCity (){
@@ -62,12 +62,40 @@ public class AdminCitiesTests extends BasicTest{
         navPage.adminButton().click();
         navPage.citiesButtonFromDropdown().click();
         citiesPage.newItemButton().click();
-        citiesPage.waitUntilCreateAndEditCityMessageIsVisible();
-        citiesPage.fillInTheNameInputFiled(city);
-        citiesPage.saveButtonForAddOrEdit().click();
+        citiesPage.waitForCreateEditDialogVisibility();
+        citiesPage.clearEndTypeCitiesNameField(city);
+        citiesPage.dialogSaveButton().click();
         messagePopUpPage.waitUntilPopUpMessageForSuccessfulAddOrEditIsVisible();
         Assert.assertFalse(messagePopUpPage.getTextFromPopUpMessageForSuccessfulAddOrEdit(),
                 "Error! PopUp message doesn't contain text 'Saved successfully'.");
+    }
+    @Test(priority = 4, retryAnalyzer = danielRetry.class)
+    public void  editCity(){
+//     Podaci:
+//old city name: [Ime i prezime polaznika]’s city
+//new city name: [Ime i prezime polaznika]’s city Edited
+//Koraci:
+//Klik na admin dugme iz navigacije
+//Klik na Cities dugme iz padajuceg Admin menija
+//U polje za pretragu uneti staro ime grada
+//Sacekati da broj redova u tabeli bude 1
+//Kliknuti na dugme Edit iz prvog reda
+//Uneti novo ime za grad
+//Kliknuti na dugme Save
+//Sacekati da popu za prikaz poruke bude vidljiv
+//Verifikovati da poruka sadrzi tekst Saved successfully
 
+        String oldCityName= "MilicaRadovanovic's city";
+        String newCityName= "MilicaRadovanovic's city Edited";
+        navPage.adminButton().click();
+        navPage.citiesButtonFromDropdown().click();
+        citiesPage.typeSearchCityInput(oldCityName);
+        citiesPage.waitForNumberOfTableRows(1);
+        citiesPage.clickOnEditButtonFromTableRow(1);
+        citiesPage.typeEditCityInput(newCityName);
+        citiesPage.clickOnDialogSaveButton();
+        messagePopUpPage.waitUntilPopUpMessageForSuccessfulAddOrEditIsVisible();
+        Assert.assertFalse(messagePopUpPage.getTextFromPopUpMessageForSuccessfulAddOrEdit(),
+                "Error! PopUp message with text 'Saved successfully' didn't visible.");
     }
 }
