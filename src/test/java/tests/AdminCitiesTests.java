@@ -1,11 +1,11 @@
 package tests;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import retry.danielRetry;
 
 public class AdminCitiesTests extends BasicTest{
-
     @Test(priority = 1, retryAnalyzer = danielRetry.class)
     public void visitsTheAdminCitiesPageAndListCities (){
 //        Podaci:
@@ -43,6 +43,31 @@ public class AdminCitiesTests extends BasicTest{
         citiesPage.waitUntilCreateAndEditCityMessageIsVisible();
         Assert.assertEquals(citiesPage.nameInputFiledForAttributeType(),
                 "text",
-                "Error! Name input filed doesn't have 'text' value.");
+              "Error! Name input filed doesn't have 'text' value.");
+    }
+    @Test (priority = 3, retryAnalyzer = danielRetry.class)
+    public void  createNewCity (){
+//        Podaci:
+//        city: [Ime i prezime polaznika]’s city
+//        Koraci:
+//        Klik na admin dugme iz navigacije
+//        Klik na Cities dugme iz padajuceg Admin menija
+//        Kliknuti na New Item dugme
+//        Sacekati da se dijalog za kreiranje i editovanje grada pojavi
+//        Uneti ime grada u polje
+//        Kliknuti na Save dugme
+//        Sacekati da popu za prikaz poruke bude vidljiv
+//        Verifikovati da poruka sadrzi tekst Saved successfully
+        String city= "MilicaRadovanovic's city";
+        navPage.adminButton().click();
+        navPage.citiesButtonFromDropdown().click();
+        citiesPage.newItemButton().click();
+        citiesPage.waitUntilCreateAndEditCityMessageIsVisible();
+        citiesPage.fillInTheNameInputFiled(city);
+        citiesPage.saveButtonForAddOrEdit().click();
+        messagePopUpPage.waitUntilPopUpMessageForSuccessfulAddOrEditIsVisible();
+        Assert.assertFalse(messagePopUpPage.getTextFromPopUpMessageForSuccessfulAddOrEdit(),
+                "Error! PopUp message doesn't contain text 'Saved successfully'.");
+
     }
 }

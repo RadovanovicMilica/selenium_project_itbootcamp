@@ -49,4 +49,16 @@ public class MessagePopUpPage extends BasicPage{
         return driver.findElement(By.className("btnClose"));
     }
 
+    public WebElement popUpMessageForSuccessfulAddOrEdit (){
+        return driver.findElement(By.className("v-snack__content"));
+    }
+    public void waitUntilPopUpMessageForSuccessfulAddOrEditIsVisible(){
+        wait
+                .withMessage("Error! PopUp message for successful add or edit is not visible.")
+                .until(ExpectedConditions.visibilityOf(popUpMessageForSuccessfulAddOrEdit()));
+    }
+    public boolean getTextFromPopUpMessageForSuccessfulAddOrEdit (){
+        return popUpMessageForSuccessfulAddOrEdit().getText().contains("saved successfully");
+    }
+
 }
