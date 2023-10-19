@@ -25,4 +25,11 @@ public class AuthRoutesTests extends BasicTest{
                 baseUrl + "/login",
                 "Error! Current URL isn't " + baseUrl+ "/login");
     }
+    @Test (priority = 3, retryAnalyzer = danielRetry.class)
+    public void forbidsVisitsToAdminCitiesUrlIfNotAuthenticated (){
+        driver.navigate().to(baseUrl + "/admin/cities");
+        Assert.assertEquals(navPage.getCurrentUrl(),
+                baseUrl + "/login",
+                "Error! Current URL isn't " + baseUrl+ "/login");
+    }
 }
