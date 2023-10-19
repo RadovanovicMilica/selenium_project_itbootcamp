@@ -32,4 +32,14 @@ public class AuthRoutesTests extends BasicTest{
                 baseUrl + "/login",
                 "Error! Current URL isn't " + baseUrl+ "/login");
     }
+    @Test (priority = 4, retryAnalyzer = danielRetry.class)
+    public void forbidsVisitsToAdminUsersUrlIfNotAuthenticated (){
+//        Koraci:
+//        Ucitati /admin/users stranu
+//        Verifikovati da se u url-u stranice javlja ruta /login
+        driver.navigate().to(baseUrl + "/admin/users");
+        Assert.assertEquals(navPage.getCurrentUrl(),
+                baseUrl + "/login",
+                "Error! Current URL isn't " + baseUrl+ "/login");
+    }
 }
