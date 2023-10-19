@@ -53,9 +53,9 @@ public class MessagePopUpPage extends BasicPage{
         return driver.findElement(By.className("v-snack__content"));
     }
     public void waitUntilPopUpMessageForSuccessfulAddOrEditIsVisible(){
-        WebElement until = wait
+        wait
                 .withMessage("Error! PopUp message for successful add or edit is not visible.")
-                .until(ExpectedConditions.visibilityOf(popUpMessageForSuccessfulAddOrEdit()));
+                .until(ExpectedConditions.visibilityOfElementLocated(By.className("success")));
     }
     public boolean getTextFromPopUpMessageForSuccessfulAddOrEdit (){
         return popUpMessageForSuccessfulAddOrEdit().getText().contains("saved successfully");

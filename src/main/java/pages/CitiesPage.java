@@ -57,4 +57,11 @@ public class CitiesPage extends BasicPage{
     public void typeEditCityInput(String newCityName) {
         citiesNameInput().sendKeys(newCityName);
     }
+    public WebElement getFieldFromTableRow(int row, int column){
+        return driver.findElement(By.cssSelector(".v-data-table__wrapper tbody tr:nth-child" + row +
+                " td:nth-child" + column));
+    }
+    public String getTextFromField(){
+        return getFieldFromTableRow().getText();
+    }
 }

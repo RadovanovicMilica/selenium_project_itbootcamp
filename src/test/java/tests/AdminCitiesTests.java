@@ -98,4 +98,24 @@ public class AdminCitiesTests extends BasicTest{
         Assert.assertFalse(messagePopUpPage.getTextFromPopUpMessageForSuccessfulAddOrEdit(),
                 "Error! PopUp message with text 'Saved successfully' didn't visible.");
     }
+    @Test (priority = 5, retryAnalyzer = danielRetry.class)
+    public void searchCity () {
+//    Podaci:
+//    city name: [Ime i prezime polaznika]’s city Edited
+//    Koraci:
+//    Klik na admin dugme iz navigacije
+//    Klik na Cities dugme iz padajuceg Admin menija
+//    U polje za pretragu uneti staro ime grada
+//    Sacekati da broj redova u tabeli bude 1
+//    Verifikovati da se u Name koloni prvog reda nalazi tekst iz pretrage
+
+        String cityName = "MilicaRadovanovic's city Edited";
+        navPage.adminButton().click();
+        navPage.citiesButtonFromDropdown().click();
+//        citiesPage.waitForCreateEditDialogVisibility();
+        citiesPage.typeSearchCityInput(cityName);
+        citiesPage.waitForNumberOfTableRows(1);
+        Assert.assertEquals(citiesPage.getTextFromField(), cityName,
+                " Error! City in the name field isn't " + cityName);
+    }
 }
