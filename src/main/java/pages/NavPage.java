@@ -34,6 +34,9 @@ public class NavPage extends BasicPage {
     public  WebElement getlanguageButton (){
         return driver.findElement(By.className("btnLocaleActivation"));
     }
+    public void clickLanguageButton (){
+        getlanguageButton().click();
+    }
     public WebElement getLanguageList () {
         return driver.findElement(By.cssSelector(".menuable__content__active > div"));
     }
@@ -47,6 +50,31 @@ public class NavPage extends BasicPage {
     }
     public void clickLanguageEN () {
         getLanguageEN().click();
+    }
+
+    public WebElement getLanguageES(){
+        return driver.findElement(By.cssSelector(".btnES"));
+    }
+    public void clickLanguageES (){
+        getLanguageES().click();
+    }
+    public WebElement getLanguageFR (){
+        return driver.findElement(By.id("list-item-143"));
+    }
+    public void clickLanguageFR (){
+        getLanguageFR().click();
+    }
+    public WebElement getLanguageCN (){
+        return driver.findElement(By.id("list-item-145"));
+    }
+    public void clickLanguageCN (){
+        getLanguageCN().click();
+    }
+    public WebElement getHeader (){
+        return driver.findElement(By.cssSelector("h1.display-2"));
+    }
+    public String getHeaderText () {
+       return getHeader().getText();
     }
     public String getCurrentUrl () {
         return driver.getCurrentUrl();
@@ -85,8 +113,6 @@ public class NavPage extends BasicPage {
     }
     public WebElement citiesButtonFromDropdown (){
         return driver.findElement(By.className("btnAdminCities"));
-//        public WebElement getCitiesButton() {
-//            return driver.findElement(By.className("btnAdminCities"));
     }
     public void waitUntilCurrentUrlContainsAdminCities () {
         wait
