@@ -13,7 +13,10 @@ import org.testng.annotations.BeforeMethod;
 
 import pages.*;
 
+import java.io.IOException;
 import java.time.Duration;
+
+import static pages.Helper.takeScreenshot;
 
 public class BasicTest {
     protected WebDriver driver;
@@ -43,8 +46,10 @@ protected CitiesPage citiesPage;
         driver.navigate().to(baseUrl);
     }
     @AfterMethod
-    public void afterMethod() {
-
+    public void afterMethod(ITestResult testResult) throws IOException {
+    if (testResult.getStatus()==ITestResult.FAILURE){
+        takeScreenshot(driver, "screenshots/" + testResult.getName() + ".jpg");
+    }
 
         }
 
