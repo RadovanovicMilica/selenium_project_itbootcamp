@@ -28,7 +28,19 @@ public class LocaleTests extends BasicTest{
         Assert.assertEquals(navPage.getHeaderText(),
                 "Landing",
                 "Error! Text in Header is not 'Landing'.");
-
     }
+    @Test (priority = 3, retryAnalyzer = danielRetry.class)
+    public void setLocaleToCN (){
+//        Koraci:
+//        Postaviti jezik na CN
+//        Verifikovati da se na stranici u hederu javlja tekst 首页
+        navPage.clickLanguageButton();
+        navPage.waitUntilLanguageListIsVisible();
+        navPage.clickLanguageEN();
+        Assert.assertEquals(navPage.getHeaderText(),
+                "首页",
+                "Error! Text in Header is not '首页'.");
+    }
+
 
 }

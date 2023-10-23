@@ -59,13 +59,13 @@ public class NavPage extends BasicPage {
         getLanguageES().click();
     }
     public WebElement getLanguageFR (){
-        return driver.findElement(By.id("list-item-143"));
+        return driver.findElement(By.cssSelector("spr.f-cn"));
     }
     public void clickLanguageFR (){
         getLanguageFR().click();
     }
     public WebElement getLanguageCN (){
-        return driver.findElement(By.id("list-item-145"));
+        return driver.findElement(By.cssSelector("spn.f-cn"));
     }
     public void clickLanguageCN (){
         getLanguageCN().click();
