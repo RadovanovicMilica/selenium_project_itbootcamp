@@ -41,6 +41,18 @@ public class LocaleTests extends BasicTest{
                 "首页",
                 "Error! Text in Header is not '首页'.");
     }
+    @Test(priority = 4, retryAnalyzer = danielRetry.class)
+    public void setLocaleToFR (){
+//        Koraci:
+//        Postaviti jezik na FR
+//        Verifikovati da se na stranici u hederu javlja tekst Page d'atterrissage
+        navPage.clickLanguageButton();
+        navPage.waitUntilLanguageListIsVisible();
+        navPage.clickLanguageEN();
+        Assert.assertEquals(navPage.getHeaderText(),
+                "d'atterrissage",
+                "Error! Text in Header is not 'd'atterrissage'.");
+    }
 
 
 }
